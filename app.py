@@ -13,7 +13,6 @@ import plotly.graph_objects as go
 
 st.set_page_config(
     page_title="EV Charging Analytics",
-    page_icon="⚡",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -220,17 +219,17 @@ if df.empty:
 # SIDEBAR NAVIGATION
 # ============================================================
 
-st.sidebar.markdown("## ⚡ EV Charging Analytics")
+st.sidebar.markdown("## EV Charging Analytics")
 st.sidebar.caption("Intelligent Demand Forecasting & Pattern Analysis")
 
 page = st.sidebar.radio(
     "Navigation Menu",
     [
-        "📊 Dashboard",
-        "📈 Regression Models",
-        "🎯 Classification Models",
-        "🔮 Demand Prediction",
-        "🔍 Data Explorer"
+        "Dashboard",
+        "Regression Models",
+        "Classification Models",
+        "Demand Prediction",
+        "Data Explorer"
     ]
 )
 
@@ -249,9 +248,9 @@ st.sidebar.caption("EV Charging Intelligence Platform © 2026")
 # 1. DASHBOARD
 # ============================================================
 
-if page == "📊 Dashboard":
+if page == "Dashboard":
 
-    st.markdown('<div class="main-title">⚡ EV Charging Analytics Dashboard</div>', unsafe_allow_html=True)
+    st.markdown('<div class="main-title">EV Charging Analytics Dashboard</div>', unsafe_allow_html=True)
     st.markdown('<div class="subtitle">Overview of charging infrastructure metrics, demand distribution, and session dynamics</div>', unsafe_allow_html=True)
 
     # Key KPI Metrics
@@ -278,7 +277,7 @@ if page == "📊 Dashboard":
     col_left, col_right = st.columns(2)
 
     with col_left:
-        st.subheader("⚡ Demand Distribution")
+        st.subheader("Demand Distribution")
         fig_hist = px.histogram(
             df,
             x="Demand",
@@ -299,7 +298,7 @@ if page == "📊 Dashboard":
         st.plotly_chart(fig_hist, use_container_width=True)
 
     with col_right:
-        st.subheader("🕒 Sessions by Time Period")
+        st.subheader("Sessions by Time Period")
         if "TimePeriod" in df.columns:
             period_df = df["TimePeriod"].value_counts().reset_index()
             period_df.columns = ["TimePeriod", "Sessions"]
@@ -317,7 +316,7 @@ if page == "📊 Dashboard":
     col_row2_left, col_row2_right = st.columns(2)
 
     with col_row2_left:
-        st.subheader("📍 Average Demand by Location Type")
+        st.subheader("Average Demand by Location Type")
         if "Location" in df.columns and "Demand" in df.columns:
             loc_df = df.groupby("Location")["Demand"].agg(["mean", "count"]).reset_index()
             loc_df.columns = ["Location", "Average Demand", "Sessions"]
@@ -336,7 +335,7 @@ if page == "📊 Dashboard":
             st.plotly_chart(fig_loc, use_container_width=True)
 
     with col_row2_right:
-        st.subheader("📈 Hourly Demand Pattern")
+        st.subheader("Hourly Demand Pattern")
         if "StartHour" in df.columns and "Demand" in df.columns:
             hour_df = df.groupby("StartHour")["Demand"].mean().reset_index()
             fig_hour = px.line(
@@ -355,9 +354,9 @@ if page == "📊 Dashboard":
 # 2. REGRESSION MODELS
 # ============================================================
 
-elif page == "📈 Regression Models":
+elif page == "Regression Models":
 
-    st.markdown('<div class="main-title">📈 Regression Model Evaluation</div>', unsafe_allow_html=True)
+    st.markdown('<div class="main-title">Regression Model Evaluation</div>', unsafe_allow_html=True)
     st.markdown('<div class="subtitle">Continuous charging demand (kWh) prediction benchmark across multiple algorithms</div>', unsafe_allow_html=True)
 
     if regression_results.empty:
@@ -374,7 +373,7 @@ elif page == "📈 Regression Models":
     # Best Model Banner
     c1, c2, c3, c4 = st.columns(4)
     with c1:
-        st.metric("🏆 Best Model", str(best_reg["Model"]))
+        st.metric("Best Model", str(best_reg["Model"]))
     with c2:
         st.metric("RMSE (Lower is Better)", f"{best_reg['RMSE']:.4f}")
     with c3:
@@ -385,7 +384,7 @@ elif page == "📈 Regression Models":
 
     st.divider()
 
-    tab1, tab2, tab3 = st.tabs(["📊 Performance Comparison", "🎯 Feature Importance", "🔍 Detailed Metrics Table"])
+    tab1, tab2, tab3 = st.tabs(["Performance Comparison", "Feature Importance", "Detailed Metrics Table"])
 
     with tab1:
         col_fig1, col_fig2 = st.columns(2)
@@ -449,9 +448,9 @@ elif page == "📈 Regression Models":
 # 3. CLASSIFICATION MODELS
 # ============================================================
 
-elif page == "🎯 Classification Models":
+elif page == "Classification Models":
 
-    st.markdown('<div class="main-title">🎯 High vs Normal Demand Classification</div>', unsafe_allow_html=True)
+    st.markdown('<div class="main-title">High vs Normal Demand Classification</div>', unsafe_allow_html=True)
     st.markdown('<div class="subtitle">Predicting whether a charging session will be High Demand or Normal Demand</div>', unsafe_allow_html=True)
 
     if classification_results.empty:
@@ -465,7 +464,7 @@ elif page == "🎯 Classification Models":
     # Best Model Banner
     c1, c2, c3, c4, c5 = st.columns(5)
     with c1:
-        st.metric("🏆 Best Model", str(best_cls["Model"]))
+        st.metric("Best Model", str(best_cls["Model"]))
     with c2:
         st.metric("Accuracy", f"{best_cls['Accuracy']:.4f}")
     with c3:
@@ -475,11 +474,11 @@ elif page == "🎯 Classification Models":
     with c5:
         st.metric("F1 Score", f"{best_cls[f1_col]:.4f}")
 
-    st.info(f"📌 **Classification Split Rule:** High Demand (Class 1) = Demand ≥ {demand_threshold:.2f} kWh | Normal Demand (Class 0) = Demand < {demand_threshold:.2f} kWh")
+    st.info(f"**Classification Split Rule:** High Demand (Class 1) = Demand ≥ {demand_threshold:.2f} kWh | Normal Demand (Class 0) = Demand < {demand_threshold:.2f} kWh")
 
     st.divider()
 
-    tab1, tab2, tab3 = st.tabs(["📊 Performance Comparison", "🎯 Feature Importance", "🔍 Detailed Metrics Table"])
+    tab1, tab2, tab3 = st.tabs(["Performance Comparison", "Feature Importance", "Detailed Metrics Table"])
 
     with tab1:
         col_fig1, col_fig2 = st.columns(2)
@@ -544,9 +543,9 @@ elif page == "🎯 Classification Models":
 # 4. DEMAND PREDICTION
 # ============================================================
 
-elif page == "🔮 Demand Prediction":
+elif page == "Demand Prediction":
 
-    st.markdown('<div class="main-title">🔮 Interactive Demand Forecasting</div>', unsafe_allow_html=True)
+    st.markdown('<div class="main-title">Interactive Demand Forecasting</div>', unsafe_allow_html=True)
     st.markdown('<div class="subtitle">Configure charging session attributes to predict continuous energy demand (kWh) and demand classification in real-time</div>', unsafe_allow_html=True)
 
     st.divider()
@@ -556,7 +555,7 @@ elif page == "🔮 Demand Prediction":
 
     # 1. Charger & Location
     with col_input1:
-        st.markdown("#### ⚡ Hardware & Location")
+        st.markdown("#### Hardware & Location")
         
         # Charger Company
         company_options = sorted(df["ChargerCompany"].dropna().unique().tolist()) if "ChargerCompany" in df.columns else [0, 1]
@@ -580,7 +579,7 @@ elif page == "🔮 Demand Prediction":
 
     # 2. Timing
     with col_input2:
-        st.markdown("#### 🕒 Time & Schedule")
+        st.markdown("#### Time & Schedule")
 
         start_hour = st.slider("Start Hour of Day (24-hr)", min_value=0, max_value=23, value=14, help="Hour when charging starts (0 = 12 AM, 23 = 11 PM)")
         
@@ -600,7 +599,7 @@ elif page == "🔮 Demand Prediction":
 
     # 3. Calendar & Context
     with col_input3:
-        st.markdown("#### 📅 Context & Period")
+        st.markdown("#### Context & Period")
 
         years = sorted(df["StartYear"].dropna().astype(int).unique().tolist()) if "StartYear" in df.columns else [2022, 2023]
         start_year = st.selectbox("Year", years, index=0)
@@ -647,7 +646,7 @@ elif page == "🔮 Demand Prediction":
     st.divider()
 
     # Predict Button
-    predict_btn = st.button("🚀 Predict Demand & Classification", type="primary", use_container_width=True)
+    predict_btn = st.button("Predict Demand and kWh", type="primary", use_container_width=True)
 
     if predict_btn:
         if regression_model is None or classification_model is None:
@@ -661,7 +660,7 @@ elif page == "🔮 Demand Prediction":
                 pred_class = int(classification_model.predict(input_data)[0])
                 prob_high = float(classification_model.predict_proba(input_data)[0][1]) if hasattr(classification_model, "predict_proba") else (1.0 if pred_class == 1 else 0.0)
 
-                st.markdown("### 🎯 Prediction Results")
+                st.markdown("### Prediction Results")
 
                 res_col1, res_col2, res_col3 = st.columns(3)
 
@@ -680,7 +679,7 @@ elif page == "🔮 Demand Prediction":
                     )
 
                 with res_col2:
-                    badge = '<span class="status-badge-high">🔥 HIGH DEMAND</span>' if pred_class == 1 else '<span class="status-badge-normal">⚡ NORMAL DEMAND</span>'
+                    badge = '<span class="status-badge-high">HIGH DEMAND</span>' if pred_class == 1 else '<span class="status-badge-normal">NORMAL DEMAND</span>'
                     st.markdown(
                         f"""
                         <div class="metric-box">
@@ -732,6 +731,114 @@ elif page == "🔮 Demand Prediction":
                 fig_gauge.update_layout(height=260, margin=dict(l=20, r=20, t=40, b=20))
                 st.plotly_chart(fig_gauge, use_container_width=True)
 
+                st.divider()
+
+                # 3. 24-Hour Continuous Regression Demand Forecast Profile
+                st.subheader("24-Hour Energy Demand Forecast Profile")
+                st.caption("Hourly regression projection simulating energy demand throughout the day under the chosen configuration.")
+
+                hours_range = list(range(24))
+                sim_time_periods = [
+                    "Night" if h < 6 else ("Morning" if h < 12 else ("Afternoon" if h < 18 else "Evening"))
+                    for h in hours_range
+                ]
+                sim_24h_df = pd.DataFrame({
+                    "ChargerCompany": [charger_company] * 24,
+                    "Location": [location] * 24,
+                    "ChargerType": [charger_type] * 24,
+                    "StartHour": hours_range,
+                    "StartDayOfWeek": [int(start_day_of_week)] * 24,
+                    "StartMonth": [int(start_month)] * 24,
+                    "StartYear": [int(start_year)] * 24,
+                    "IsWeekend": [int(is_weekend)] * 24,
+                    "TimePeriod": sim_time_periods
+                })
+
+                hourly_pred = regression_model.predict(sim_24h_df)
+
+                # Metrics for 24h forecast
+                peak_idx = int(np.argmax(hourly_pred))
+                min_idx = int(np.argmin(hourly_pred))
+
+                fc_col1, fc_col2, fc_col3, fc_col4 = st.columns(4)
+                with fc_col1:
+                    st.metric("Peak Demand Hour", f"{peak_idx}:00", f"{hourly_pred[peak_idx]:.2f} kWh")
+                with fc_col2:
+                    st.metric("Lowest Demand Hour", f"{min_idx}:00", f"{hourly_pred[min_idx]:.2f} kWh")
+                with fc_col3:
+                    st.metric("24-Hr Average Demand", f"{np.mean(hourly_pred):.2f} kWh")
+                with fc_col4:
+                    cur_diff = pred_demand - np.mean(hourly_pred)
+                    st.metric("Selected vs Daily Avg", f"{pred_demand:.2f} kWh", f"{'+' if cur_diff >= 0 else ''}{cur_diff:.2f} kWh")
+
+                # Build 24h Forecast Curve
+                fig_forecast = go.Figure()
+
+                # Add historical benchmark line if available
+                if "StartHour" in df.columns and "Demand" in df.columns:
+                    hist_avg = df.groupby("StartHour")["Demand"].mean().reindex(hours_range).values
+                    fig_forecast.add_trace(go.Scatter(
+                        x=hours_range,
+                        y=hist_avg,
+                        mode="lines",
+                        name="Historical Dataset Avg",
+                        line=dict(color="#94a3b8", width=2, dash="dot"),
+                        hovertemplate="Historical Avg: %{y:.2f} kWh<extra></extra>"
+                    ))
+
+                # Add predicted 24h regression curve
+                fig_forecast.add_trace(go.Scatter(
+                    x=hours_range,
+                    y=hourly_pred,
+                    mode="lines+markers",
+                    name="Forecasted Demand (Regression)",
+                    line=dict(color="#2563eb", width=3),
+                    marker=dict(size=6, color="#2563eb"),
+                    fill="tozeroy",
+                    fillcolor="rgba(37, 99, 235, 0.08)",
+                    hovertemplate="Hour %{x}:00<br>Forecast: %{y:.2f} kWh<extra></extra>"
+                ))
+
+                # Add marker for selected hour
+                fig_forecast.add_trace(go.Scatter(
+                    x=[int(start_hour)],
+                    y=[pred_demand],
+                    mode="markers+text",
+                    name=f"Selected Hour ({start_hour}:00)",
+                    marker=dict(size=14, color="#ef4444", symbol="star"),
+                    text=[f"  {pred_demand:.2f} kWh"],
+                    textposition="top right",
+                    textfont=dict(color="#ef4444", size=12, family="sans-serif"),
+                    hovertemplate=f"Selected Hour: {start_hour}:00<br>Demand: {pred_demand:.2f} kWh<extra></extra>"
+                ))
+
+                # Add demand threshold line
+                if demand_threshold:
+                    fig_forecast.add_hline(
+                        y=demand_threshold,
+                        line_dash="dash",
+                        line_color="#dc2626",
+                        annotation_text=f"High Demand Cutoff ({demand_threshold:.2f} kWh)",
+                        annotation_position="bottom right"
+                    )
+
+                fig_forecast.update_layout(
+                    title="24-Hour Continuous Demand Forecast Curve",
+                    xaxis=dict(
+                        tickmode="linear",
+                        tick0=0,
+                        dtick=2,
+                        title="Hour of Day (0:00 - 23:00)"
+                    ),
+                    yaxis=dict(title="Energy Demand (kWh)"),
+                    hovermode="x unified",
+                    legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+                    height=420,
+                    margin=dict(l=20, r=20, t=60, b=30)
+                )
+
+                st.plotly_chart(fig_forecast, use_container_width=True)
+
             except Exception as e:
                 st.error(f"Prediction failed: {str(e)}")
                 st.exception(e)
@@ -741,9 +848,9 @@ elif page == "🔮 Demand Prediction":
 # 5. DATA EXPLORER
 # ============================================================
 
-elif page == "🔍 Data Explorer":
+elif page == "Data Explorer":
 
-    st.markdown('<div class="main-title">🔍 EV Charging Data Explorer</div>', unsafe_allow_html=True)
+    st.markdown('<div class="main-title">EV Charging Data Explorer</div>', unsafe_allow_html=True)
     st.markdown('<div class="subtitle">Filter, inspect, and export clean feature-engineered charging session records</div>', unsafe_allow_html=True)
 
     # Metrics
@@ -759,7 +866,7 @@ elif page == "🔍 Data Explorer":
 
     st.divider()
 
-    st.markdown("#### 🔎 Filter Records")
+    st.markdown("#### Filter Records")
     fcol1, fcol2, fcol3 = st.columns(3)
 
     filtered_df = df.copy()
@@ -800,14 +907,14 @@ elif page == "🔍 Data Explorer":
 
     st.markdown(f"Showing **{len(filtered_df):,}** of **{len(df):,}** records ({len(filtered_df)/len(df)*100:.1f}%)")
 
-    tab_table, tab_stats = st.tabs(["📄 Data Table", "📊 Summary Statistics"])
+    tab_table, tab_stats = st.tabs(["Data Table", "Summary Statistics"])
 
     with tab_table:
         st.dataframe(filtered_df, use_container_width=True, height=450)
         
         csv_bytes = filtered_df.to_csv(index=False).encode("utf-8")
         st.download_button(
-            label="📥 Download Filtered CSV",
+            label="Download Filtered CSV",
             data=csv_bytes,
             file_name="filtered_ev_charging_data.csv",
             mime="text/csv",
